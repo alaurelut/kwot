@@ -1,0 +1,58 @@
+html{
+	height: 100%;
+}
+
+body{
+	font-family: 'Raleway', sans-serif;
+	width:100%;
+	height:100%;
+	display: flex;
+	margin: 0;
+	justify-content: space-around;
+    align-items: center;
+}
+
+#left{
+	border:1px solid black;
+	width:35%;
+	height:80%;
+	display: flex;
+	margin: 0;
+	justify-content: space-around;
+    align-items: center;
+}
+
+#right{
+	border:1px solid black;
+	width:35%;
+	height:80%;
+	display: flex;
+	margin: 0;
+	justify-content: space-around;
+    align-items: center;
+}
+
+
+.content{
+	width:80%;
+	height:80%;
+
+}
+
+.text{
+	font-size:250%;
+	color:#5A788B;
+}
+
+
+.offre{
+	font-size:80%;
+}
+
+.connexion{
+	color:#FC5B0B;
+	border:2px solid #FC5B0B;
+	border-radius: 45px;
+	padding:10px;
+	text-align: center;
+}
