@@ -20,6 +20,10 @@
     <div id="right">
         <div class="content">
     		<p class="text">
+
+          <button onclick="login('google')">Google</button>
+          <button onclick="login('facebook')">Facebook</button>
+          <button onclick="login('twitter')">Twitter</button>
     		<input type="text" placeholder="Adresse mail">
     		<input type="text" placeholder="Mot de passe">
     		</p>
@@ -27,6 +31,59 @@
     	</div>
     </div>
     </div>
+
+    <!-- https://puteborgne.sexy/talk2/ -->
+    <script src="https://www.gstatic.com/firebasejs/3.6.4/firebase.js"></script>
+    <script>
+      // Initialize Firebase
+      var mainFirebaseApp = firebase.initializeApp({
+        apiKey: "AIzaSyDBnNrUk-iyqi-iq8faT3rW4t9PGZcduIQ",
+        authDomain: "kwot-4f92f.firebaseapp.com",
+        databaseURL: "https://kwot-4f92f.firebaseio.com",
+        storageBucket: "kwot-4f92f.appspot.com",
+        messagingSenderId: "495914858617"
+      });
+
+      function login(authMethod) {
+
+        console.log(authMethod);
+
+        switch (authMethod) {
+          case "google":
+            var authProvider = new firebase.auth.GoogleAuthProvider();
+            authProvider.addScope('https://www.googleapis.com/auth/plus.login');
+            break;
+          case "facebook":
+            var authProvider = new firebase.auth.FacebookAuthProvider();
+            break;
+          case "twitter":
+            var authProvider = new firebase.auth.TwitterAuthProvider();
+            break;
+
+        }
+
+        mainFirebaseApp
+        .auth()
+        .signInWithPopup(authProvider)
+        .then(
+          function(result) {
+            console.log(result);
+
+  						// var token = result.credential.accessToken;
+  						// var credential = mainFirebaseApp.auth.GoogleAuthProvider.credential(token);
+              //
+  			  		// mainFirebaseApp.auth().currentUser.link(credential)
+              // .then(
+              //   function(user) {
+        			//   		console.log("Anonymous account successfully upgraded", user);
+        			// 	}, function(error) {
+        			// 			console.log("Error upgrading anonymous account", error);
+        			// 	}
+              // );
+        })
+      }
+    </script>
+
 </body>
 
 </html>
