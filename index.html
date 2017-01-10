@@ -9,29 +9,64 @@
 </head>
 
 <body>
-    <div id="left">
-        <div class="content">
-    		<p class="text">Bientôt, <b>Kwot</b> votre outil de gestion d'info</p>
-    		<p class="offre">
-    			découvrir notre offre >
-    		</p>
-    	</div>
+  <div id="app">
+    <div v-if="isLoggedIn">
+        <button @click="signOut()">Sign Out</button>
+        <div v-for="post in posts" v-if="post.message">
+          <h1>{{ post.message }}</h1>
+          <h2>Nombre de commentaires : {{ post.comments.length}}</h2>
+          <h2>Commentaires positifs : {{ post.positive}}</h2>
+          <h2>Commentaires negatifs : {{ post.negative}}</h2>
+          <h2 v-if="post.neutral">Commentaires neutres : {{ post.neutral}}</h2>
+        </div>
     </div>
-    <div id="right">
-        <div class="content">
-    		<p class="text">
-          <button onclick="login('google')">Google</button>
-          <button onclick="login('facebook')">Facebook</button>
-          <button onclick="login('twitter')">Twitter</button>
-    		</p>
-    		<div class="connexion">Connexion</div>
-    	</div>
+    <div v-else id="logIn">
+        <div id="left">
+            <div class="content">
+                <p class="text">Bientôt, <b>Kwot</b> votre outil de gestion d'info</p>
+                <p class="offre">
+                    découvrir notre offre >
+                </p>
+            </div>
+        </div>
+        <div id="right">
+            <div class="content">
+                <p class="text">
+                    <button @click="login('google')">Google</button>
+                    <button @click="login('facebook')">Facebook</button>
+                    <button @click="login('twitter')">Twitter</button>
+                </p>
+                <div class="connexion">Connexion</div>
+            </div>
+        </div>
     </div>
-    </div>
+  </div>
 
     <!-- https://puteborgne.sexy/talk2/ -->
+    <script type="text/javascript">
+      // Initialize Facebook
+      window.fbAsyncInit = function() {
+          FB.init({
+              appId: '356243101416513',
+              xfbml: true,
+              version: 'v2.8'
+          });
+          FB.AppEvents.logPageView();
+      };
+      (function(d, s, id) {
+          var js, fjs = d.getElementsByTagName(s)[0];
+          if (d.getElementById(id)) {
+              return;
+          }
+          js = d.createElement(s);
+          js.id = id;
+          js.src = "//connect.facebook.net/en_US/sdk.js";
+          fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));
+    </script>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
     <script src="https://www.gstatic.com/firebasejs/3.6.4/firebase.js"></script>
-    <script src="js/login.js"></script>
+    <script src="js/view.js"></script>
 
 </body>
 
