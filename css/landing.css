@@ -73,7 +73,7 @@ body {
 }
 
 
-.connexion {
+#connexion {
     color: rgb(251, 91, 11);
     border: 2px solid #FC5B0B;
     border-radius: 45px;
@@ -83,14 +83,14 @@ body {
     cursor: pointer;
 }
 
-.mail {
+#mail {
     border: none;
     border-bottom: 1px solid rgb(91, 121, 140);
     width: 100%;
     padding: 10px 10px 10px 5px;
 }
 
-.mail:focus {
+#mail:focus {
     outline: none;
 }
 
@@ -101,10 +101,20 @@ body {
 }
 
 .bottom-text{
-	height: 30%;
+    height: 30%;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
+}
+::-webkit-input-placeholder { font-family: 'Raleway', sans-serif; }
+::-moz-placeholder { font-family: 'Raleway', sans-serif; } /* firefox 19+ */
+:-ms-input-placeholder { font-family: 'Raleway', sans-serif; } /* ie */
+input:-moz-placeholder { font-family: 'Raleway', sans-serif; }
+
+.bottom-text input{
+	margin-bottom: 35px;
+     
+
 }
 
 #picto-veille{
@@ -113,5 +123,15 @@ body {
 
 
 #text-president{
-	margin-left: 10%;
+    margin-left: 10%;
 }
+
+.error{
+    color:red;
+}
+
+.success{
+    color:green;
+}
+
+
