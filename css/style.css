@@ -1,58 +1,117 @@
-html{
-	height: 100%;
+html {  
+	
+	background: url("../img/trump.jpg") no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    height: 100%;
+
+  transition: background 2s linear;
 }
 
-body{
-	font-family: 'Raleway', sans-serif;
-	width:100%;
-	height:100%;
-	display: flex;
-	margin: 0;
-	justify-content: space-around;
+body {
+    background: url("../img/bulles.svg") no-repeat ;
+    background-size: 34%;
+    background-origin: border-box;
+    background-position: 90% 10%;
+    font-family: 'Raleway', sans-serif;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    margin: 0;
+    justify-content: space-around;
     align-items: center;
 }
 
-#left{
-	border:1px solid black;
-	width:35%;
-	height:80%;
+#left {
+	background-color: rgba(40, 173, 173, 0.90);
+    border-radius: 50%;
+    width: 22em;
+    height: 22em;
 	display: flex;
-	margin: 0;
-	justify-content: space-around;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#right {
+    background-color: white;
+    border-top: 15px solid rgb(251, 91, 11);
+    width: 30%;
+    height: 70%;
+    display: flex;
+    justify-content: space-around;
     align-items: center;
 }
 
-#right{
-	border:1px solid black;
-	width:35%;
-	height:80%;
-	display: flex;
-	margin: 0;
-	justify-content: space-around;
+#text {
+    color: white;
+    font-size: 1.7em;
+    font-weight: bold;
+    text-align: center;
+
+}
+
+.contentLeft {
+	margin-top: 6%;
+    color: white;
+    font-size: 200%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
     align-items: center;
 }
 
+.content {
+    width: 69%;
+    height: 80%;
+    display: flex;
+    flex-direction: column;
 
-.content{
-	width:80%;
-	height:80%;
-
-}
-
-.text{
-	font-size:250%;
-	color:#5A788B;
+    justify-content: space-between;
 }
 
 
-.offre{
-	font-size:80%;
+.connexion {
+    color: rgb(251, 91, 11);
+    border: 2px solid #FC5B0B;
+    border-radius: 45px;
+    padding: 10px;
+    text-align: center;
+    font-weight: bold;
+    cursor: pointer;
 }
 
-.connexion{
-	color:#FC5B0B;
-	border:2px solid #FC5B0B;
-	border-radius: 45px;
-	padding:10px;
+.mail {
+    border: none;
+    border-bottom: 1px solid rgb(91, 121, 140);
+    width: 100%;
+    padding: 10px 10px 10px 5px;
+}
+
+.mail:focus {
+    outline: none;
+}
+
+.textRight {
 	text-align: center;
+    color:#5A788B;
+
+}
+
+.bottom-text{
+	height: 30%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+#picto-veille{
+	width: 80px;
+}
+
+
+#text-president{
+	margin-left: 10%;
 }

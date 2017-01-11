@@ -1,4 +1,4 @@
-// Initialize Firebase
+/*// Initialize Firebase
 var firebaseApp = firebase.initializeApp({
     apiKey: "AIzaSyDBnNrUk-iyqi-iq8faT3rW4t9PGZcduIQ",
     authDomain: "kwot-4f92f.firebaseapp.com",
@@ -86,3 +86,4 @@ function login(authMethod) {
                 });
             })
 }
+*/
