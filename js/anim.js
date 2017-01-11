@@ -50,15 +50,12 @@ function backgroundSequence() {
         $('html').css('-moz-background-size', 'cover');
         $('html').css('-o-background-size', 'cover');
         $('html').css('background-size', 'cover');
-
-
-        console.log(bgImageArray[k]);
         if (k + 1 == bgImageArray.length) {
             k = 0;
         } else {
             k++;
         }
-    }, 3000);
+    }, 6000);
 
 
 }
