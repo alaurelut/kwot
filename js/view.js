@@ -2,14 +2,8 @@ var vueApp = new Vue({
     el: '#app',
     data: {
         firebaseApp: false,
-        firebaseConfig: {
-            apiKey: "AIzaSyDBnNrUk-iyqi-iq8faT3rW4t9PGZcduIQ",
-            authDomain: "kwot-4f92f.firebaseapp.com",
-            databaseURL: "https://kwot-4f92f.firebaseio.com",
-            storageBucket: "kwot-4f92f.appspot.com",
-            messagingSenderId: "495914858617"
-        },
-        isLoggedIn: false,
+        database: false,
+        user: false,
         posts: []
     },
     methods: {
@@ -39,6 +33,7 @@ var vueApp = new Vue({
                         function(result) {
                             var credential = result.credential;
                             var user = result.user;
+                            vm.user = user;
                             // Get reference to the currently signed-in user
                             var prevUser = vm.firebaseApp.auth.currentUser;
                             // Sign in user with another account
@@ -111,14 +106,22 @@ var vueApp = new Vue({
                 }
 
                 console.log(this.posts);
+                console.log('vm user', this.user);
+
+                this.writePostData(this.user.uid, this.posts)
 
             }
+        },
+        writePostData: function(userId, posts) {
+            this.database.ref('users/' + userId).set({
+                posts: posts
+            });
         },
         signOut: function() {
             var vm = this;
             this.firebaseApp.auth().signOut().then(function() {
                 console.log('Signed Out');
-                vm.isLoggedIn = false;
+                vm.user = false;
             }, function(error) {
                 console.error('Sign Out Error', error);
             });
@@ -128,12 +131,21 @@ var vueApp = new Vue({
         }
     },
     mounted: function() {
-        this.firebaseApp = firebase.initializeApp(this.firebaseConfig);
+        var firebaseConfig = {
+            apiKey: "AIzaSyDBnNrUk-iyqi-iq8faT3rW4t9PGZcduIQ",
+            authDomain: "kwot-4f92f.firebaseapp.com",
+            databaseURL: "https://kwot-4f92f.firebaseio.com",
+            storageBucket: "kwot-4f92f.appspot.com",
+            messagingSenderId: "495914858617"
+        };
+        this.firebaseApp = firebase.initializeApp(firebaseConfig);
+        // Get a reference to the database service
+        this.database = this.firebaseApp.database();
         var vm = this;
         this.firebaseApp.auth().onAuthStateChanged(function(user) {
             if (user) {
                 console.log('user signed in', user);
-                vm.isLoggedIn = true;
+                vm.user = user;
                 console.log(localStorage.getItem('facebookToken'));
                 if (localStorage.getItem('facebookToken') != null) {
                     var token = localStorage.getItem('facebookToken');
