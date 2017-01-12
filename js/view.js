@@ -58,14 +58,14 @@ var vueApp = new Vue({
         },
         getFacebookComments: function(token) {
             var vm = this;
-            var url = "https://graph.facebook.com/v2.8/me/feed?&access_token=" + token;
+            var url = "https://graph.facebook.com/v2.8/me/feed?limit=5&access_token=" + token;
             var feedRequest = this.getRequest(url);
             feedRequest.onreadystatechange = function() {
                 if (feedRequest.status == 200) {
                     var posts = JSON.parse(feedRequest.responseText);
                     posts = posts.data;
                     for (var i = 0; i < posts.length; i++) {
-                      if (posts[i].message && vm.posts.length < 5) {
+                      if (posts[i].message) {
                         vm.posts.push(posts[i]);
                       }
                     }
