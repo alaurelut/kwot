@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+    <link rel="stylesheet" href="css/index.css">
+    <meta charset="UTF-8">
+    <title>KWOT</title>
+</head>
+
+<body>
+  <div id="app">
+    <div v-show="user">
+        <button @click="signOut()">Sign Out</button>
+        <div v-for="(post, index) in posts" v-if="post.message" class="posts">
+          <div class="legend">
+            <h1>{{ post.message }}</h1>
+            <h2>Nombre de commentaires : {{ post.comments.length}}</h2>
+            <h2 v-if="post.positive">Commentaires positifs : {{ post.positive}}</h2>
+            <h2 v-if="post.negative">Commentaires negatifs : {{ post.negative}}</h2>
+            <h2 v-if="post.neutral">Commentaires neutres : {{ post.neutral}}</h2>
+          </div>
+          <div class="chart">
+            <chart :post="post"></chart>
+          </div>
+        </div>
+    </div>
+    <div v-show="!user" id="logIn">
+        <div id="left">
+            <div class="content">
+                <p class="text">Bientôt, <b>Kwot</b> votre outil de gestion d'info</p>
+                <p class="offre">
+                    découvrir notre offre >
+                </p>
+            </div>
+        </div>
+        <div id="right">
+            <div class="content">
+                <p class="text">
+                    <button @click="login('google')">Google</button>
+                    <button @click="login('facebook')">Facebook</button>
+                    <button @click="login('twitter')">Twitter</button>
+                </p>
+                <div class="connexion">Connexion</div>
+            </div>
+        </div>
+    </div>
+  </div>
+
+    <!-- https://puteborgne.sexy/talk2/ -->
+
+    <script type="text/javascript">
+      // Initialize Facebook
+      window.fbAsyncInit = function() {
+          FB.init({
+              appId: '356243101416513',
+              xfbml: true,
+              version: 'v2.8'
+          });
+          FB.AppEvents.logPageView();
+      };
+      (function(d, s, id) {
+          var js, fjs = d.getElementsByTagName(s)[0];
+          if (d.getElementById(id)) {
+              return;
+          }
+          js = d.createElement(s);
+          js.id = id;
+          js.src = "//connect.facebook.net/en_US/sdk.js";
+          fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));
+    </script>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/3.6.4/firebase.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+    <script src="js/view.js"></script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-90171860-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+</body>
+</html>
