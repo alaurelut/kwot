@@ -66,7 +66,7 @@ var vueApp = new Vue({
                     posts = posts.data;
                     for (var i = 0; i < posts.length; i++) {
                       if (posts[i].message && vm.posts.length < 5) {
-                        vm.posts = posts.push(posts[i]);
+                        vm.posts.push(posts[i]);
                       }
                     }
                     for (var i = 0; i < vm.posts.length; i++) {
