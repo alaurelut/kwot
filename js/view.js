@@ -58,6 +58,61 @@ var vueApp = new Vue({
         },
         getFacebookComments: function(token) {
             var vm = this;
+
+            for (var i = 0; i < vm.posts.length; i++) {
+                var post = vm.posts[i];
+                // post.comments = [];
+                var commentsUrl = "https://graph.facebook.com/v2.8/" + post.id + "/comments?&access_token=" + token;
+                var commentsRequest = vm.getRequest(commentsUrl);
+                commentsRequest.onreadystatechange = function() {
+                    if (commentsRequest.status == 200) {
+                        var commentsReturn = JSON.parse(commentsRequest.responseText);
+                        // post.comments = comments.data;
+                        var comments = commentsReturn.data;
+
+                        for (var y = 0; y < comments.length; y++) {
+                            var comment = comments[y];
+                            if (!vm.isCommentPresentInPostAlready(post, comment)) {
+                                var watsonUrl = "https://gateway-a.watsonplatform.net/calls/text/TextGetTextSentiment?apikey=d5dbbfa0e237deb3e2e03242d4c5a3c6434b0946&text=" + encodeURIComponent(vm.removeDiacritics(comment.message)) + "&outputMode=json"
+                                var watsonRequest = vm.getRequest(watsonUrl);
+                                watsonRequest.onreadystatechange = function() {
+                                    if (watsonRequest.status == 200) {
+                                        comment.watson = JSON.parse(watsonRequest.responseText);
+                                        if (comment.watson.docSentiment) {
+                                            if (post[comment.watson.docSentiment.type] == undefined) {
+                                                post[comment.watson.docSentiment.type] = 0;
+                                            }
+                                            post[comment.watson.docSentiment.type]++;
+                                            if (post.comments == undefined) {
+                                              post.comments = [];
+                                            }
+                                            post.comments.push(comment);
+                                        }
+                                    }
+                                }
+                                watsonRequest.send();
+                            }
+                        }
+                        vm.writePostData(vm.user.uid, vm.posts);
+                    }
+                }
+                commentsRequest.send();
+            }
+        },
+        isCommentPresentInPostAlready: function(post, comment) {
+            var isPresent = false;
+            if (post.comments != undefined) {
+                post.comments.forEach(function(postComment) {
+                    if (comment.id == postComment.id) {
+                        isPresent = true;
+                        return false;
+                    }
+                });
+            }
+            return isPresent;
+        },
+        getFacebookPosts: function(token) {
+            var vm = this;
             var url = "https://graph.facebook.com/v2.8/me/feed?limit=5&access_token=" + token;
             var feedRequest = this.getRequest(url);
             feedRequest.onreadystatechange = function() {
@@ -65,46 +120,12 @@ var vueApp = new Vue({
                     var posts = JSON.parse(feedRequest.responseText);
                     posts = posts.data;
                     for (var i = 0; i < posts.length; i++) {
-                      if (posts[i].message) {
-                        vm.posts.push(posts[i]);
-                      }
-                    }
-                    for (var i = 0; i < vm.posts.length; i++) {
-                        var post = vm.posts[i];
-                        post.comments = [];
-                        var commentsUrl = "https://graph.facebook.com/v2.8/" + post.id + "/comments?&access_token=" + token;
-                        var commentsRequest = vm.getRequest(commentsUrl);
-                        commentsRequest.onreadystatechange = function() {
-                            console.log('commentsRequest', commentsRequest);
-
-                            if (commentsRequest.status == 200) {
-                                var comments = JSON.parse(commentsRequest.responseText);
-                                console.log('comments', comments);
-                                post.comments = comments.data;
-
-                                for (var y = 0; y < post.comments.length; y++) {
-                                    var comment = post.comments[y];
-                                    var watsonUrl = "https://gateway-a.watsonplatform.net/calls/text/TextGetTextSentiment?apikey=d5dbbfa0e237deb3e2e03242d4c5a3c6434b0946&text=" + encodeURIComponent(vm.removeDiacritics(comment.message)) + "&outputMode=json"
-                                    var watsonRequest = vm.getRequest(watsonUrl);
-                                    watsonRequest.onreadystatechange = function() {
-                                      if (watsonRequest.status == 200) {
-                                          comment.watson = JSON.parse(watsonRequest.responseText);
-                                          if (comment.watson.docSentiment) {
-                                              if (post[comment.watson.docSentiment.type] == undefined) {
-                                                  post[comment.watson.docSentiment.type] = 0;
-                                              }
-                                              post[comment.watson.docSentiment.type]++;
-                                          }
-                                      }
-                                    }
-                                    watsonRequest.send();
-                                }
-                            }
+                        if (posts[i].message) {
+                            vm.posts.push(posts[i]);
                         }
-                        commentsRequest.send();
                     }
-                    vm.writePostData(vm.user.uid, vm.posts);
-                    console.log('mdr', vm.posts);
+
+                    vm.getFacebookComments(token);
                 }
             }
             feedRequest.send();
@@ -147,17 +168,20 @@ var vueApp = new Vue({
                 vm.user = user;
                 console.log(user);
                 var promise = vm.getUserPosts(vm.user.uid);
+
+                if (localStorage.getItem('facebookToken') != null) {
+                    var token = localStorage.getItem('facebookToken');
+                }
+
                 promise.then(function(data) {
                     if (data.val() != null) {
                         vm.posts = data.val().posts;
-                    }
-
-                    if (localStorage.getItem('facebookToken') != null) {
-                        var token = localStorage.getItem('facebookToken');
                         vm.getFacebookComments(token);
+                    } else {
+                        console.log('no post in DB');
+                        vm.getFacebookPosts(token);
                     }
                 });
-
             }
         });
     }
@@ -168,8 +192,6 @@ Vue.component('chart', {
     // declare the props
     props: ['post'],
     mounted: function() {
-        console.log('chart mounted', this.post);
-
         var positiveScore = 100 * this.post.positive / this.post.comments.length;
         var negativeScore = 100 * this.post.negative / this.post.comments.length;
         var neutralScore = 100 * this.post.neutral / this.post.comments.length;
@@ -198,7 +220,5 @@ Vue.component('chart', {
             }
         });
     },
-    // just like data, the prop can be used inside templates
-    // and is also made available in the vm as this.message
     template: '<canvas v-bind:id="\'chart-\' + post.id" width="400" height="400"></canvas>'
 })
