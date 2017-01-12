@@ -1,41 +1,31 @@
 html {  
 	
-	background: url("../img/trump.jpg") no-repeat center center fixed;
+	background: url("../img/trump_sensei.jpg") no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
     height: 100%;
-
-  transition: background 2s linear;
 }
 
 body {
-    background: url("../img/bulles.svg") no-repeat ;
-    background-size: 34%;
+    margin: 0;
+    background: url(../img/bulles.svg) no-repeat;
+    background-size: 31%;
     background-origin: border-box;
-    background-position: 90% 10%;
+    background-position: 85% 59%;
     font-family: 'Raleway', sans-serif;
     width: 100%;
     height: 100%;
-    display: flex;
-    margin: 0;
-    justify-content: space-around;
-    align-items: center;
 }
 
 #left {
-	background-color: rgba(40, 173, 173, 0.90);
-    border-radius: 50%;
-    width: 22em;
-    height: 22em;
-	display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
 }
 
 #right {
+    position: absolute;
+    margin-top: 8%;
+    margin-left: 55%;
     background-color: white;
     border-top: 15px solid rgb(251, 91, 11);
     width: 30%;
@@ -47,15 +37,30 @@ body {
 
 #text {
     color: white;
-    font-size: 1.7em;
+    font-size: 2.2em;
     font-weight: bold;
     text-align: center;
+    margin-top: 6%;
+    width: 35%;
+    position: absolute;
 
 }
 
-.contentLeft {
-	margin-top: 6%;
-    color: white;
+#contentLeft {
+    margin-top: 0%;
+    color: #5b798c;
+    font-size: 220%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    height: 50%;
+    font-weight: 500;
+}
+
+#contentLogo {
+    margin-top: 0%;
+    color: #5b798c;
     font-size: 200%;
     display: flex;
     flex-direction: column;
@@ -63,13 +68,13 @@ body {
     align-items: center;
 }
 
-.content {
+#content {
     width: 69%;
     height: 80%;
     display: flex;
     flex-direction: column;
-
     justify-content: space-between;
+    margin-top: 16%;
 }
 
 
@@ -87,7 +92,7 @@ body {
     border: none;
     border-bottom: 1px solid rgb(91, 121, 140);
     width: 100%;
-    padding: 10px 10px 10px 5px;
+    padding: 0px 0px 10px 5px;
 }
 
 #mail:focus {
@@ -95,9 +100,21 @@ body {
 }
 
 #textRight {
-	text-align: center;
-    color:#5A788B;
+    color: #5b798c;
+    text-align: justify;
+    -moz-text-align-last: center;
+    text-align-last: center;
+    margin-top: 10%;
+    
+    display: flex;
+    flex-direction: column;
+    height: 50%;
+    justify-content: space-between;
 
+    font-weight: 500;
+    line-height: 17pt;
+
+    letter-spacing: -0.1px;
 }
 
 .bottom-text{
@@ -118,7 +135,22 @@ input:-moz-placeholder { font-family: 'Raleway', sans-serif; }
 }
 
 #picto-veille{
-	width: 80px;
+    margin-bottom: 5%;
+    width: 80px;
+}
+
+#veille{
+  transition: opacity 2s linear;
+}
+
+#analyse{
+  transition: opacity 2s linear;
+  opacity: 0;
+}
+
+#diffusion{
+  transition: opacity 2s linear;
+  opacity: 0;
 }
 
 
@@ -135,3 +167,47 @@ input:-moz-placeholder { font-family: 'Raleway', sans-serif; }
 }
 
 
+#rectangle{
+background-image: url(../img/rectangle.png);
+    background-repeat: no-repeat;
+    background-position: top left;
+    position: absolute;
+    width: 17%;
+    height: 50%;
+    background-size: 181px 269px;
+}
+
+#arrowLeft{
+    left: 52%;
+    top: 53%;
+    position: absolute;
+    display:none;
+}
+#arrowLeft img{
+    cursor: pointer;
+  width: 50%;
+}
+#arrowRight{
+    position: absolute;
+    left: 86.4%;
+    top: 53%;
+}
+
+#arrowRight img{
+    cursor: pointer;
+  width: 50%;
+}
+
+#app{
+    opacity: 0;
+}
+
+#logo-landing{
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    margin-bottom: 30px;
+    size: 20%;
+    width: 200px;
+    margin-left: 60px;
+}
