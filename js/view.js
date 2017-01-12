@@ -97,6 +97,9 @@ var vueApp = new Vue({
                                     watsonRequest.send();
                                 }
                             }
+                            else{
+                              post.comments = [];
+                            }
                         }
                         commentsRequest.send();
                     }
