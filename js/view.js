@@ -69,12 +69,13 @@ var vueApp = new Vue({
                     }
                     for (var i = 0; i < vm.posts.length; i++) {
                         var post = vm.posts[i];
+                        post.comments = [];
                         var commentsUrl = "https://graph.facebook.com/v2.8/" + post.id + "/comments?&access_token=" + token;
                         var commentsRequest = vm.getRequest(commentsUrl);
                         commentsRequest.onreadystatechange = function() {
                             console.log('commentsRequest', commentsRequest);
 
-                            if (commentsRequest.readyState == 4 && commentsRequest.status == 200) {
+                            if (commentsRequest.status == 200) {
                                 var comments = JSON.parse(commentsRequest.responseText);
                                 console.log('comments', comments);
                                 post.comments = comments.data;
@@ -96,9 +97,6 @@ var vueApp = new Vue({
                                     }
                                     watsonRequest.send();
                                 }
-                            }
-                            else{
-                              post.comments = [];
                             }
                         }
                         commentsRequest.send();
