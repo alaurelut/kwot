@@ -54,51 +54,58 @@ var vueApp = new Vue({
         getRequest: function(url) {
             var request = new XMLHttpRequest();
             request.open('GET', url, false);
-            request.send();
             return request;
         },
         getFacebookComments: function(token) {
             var vm = this;
             var url = "https://graph.facebook.com/v2.8/me/feed?&access_token=" + token;
-            var request = this.getRequest(url);
-            if (request.status == 200) {
-                var posts = JSON.parse(request.responseText);
-                vm.posts = posts.data;
-                for (var i = 0; i < vm.posts.length; i++) {
-                    var post = vm.posts[i];
-                    var commentsUrl = "https://graph.facebook.com/v2.8/" + post.id + "/comments?&access_token=" + token;
-                    var commentsRequest = vm.getRequest(commentsUrl);
+            var feedRequest = this.getRequest(url);
+            feedRequest.onreadystatechange = function() {
+                if (feedRequest.status == 200) {
+                    var posts = JSON.parse(feedRequest.responseText);
+                    vm.posts = posts.data;
+                    var length = vm.posts.length;
+                    if (vm.posts.length > 5) {
+                        length = 5;
+                    }
+                    for (var i = 0; i < length; i++) {
+                        var post = vm.posts[i];
+                        var commentsUrl = "https://graph.facebook.com/v2.8/" + post.id + "/comments?&access_token=" + token;
+                        var commentsRequest = vm.getRequest(commentsUrl);
+                        commentsRequest.onreadystatechange = function() {
+                            console.log('commentsRequest', commentsRequest);
 
-                    if (commentsRequest.status == 200) {
-                        var comments = JSON.parse(commentsRequest.responseText);
+                            if (commentsRequest.readyState == 4 && commentsRequest.status == 200) {
+                                var comments = JSON.parse(commentsRequest.responseText);
+                                console.log('comments', comments);
+                                post.comments = comments.data;
 
-                        post.comments = comments.data;
-
-                        for (var y = 0; y < post.comments.length; y++) {
-
-                            var comment = post.comments[y];
-
-                            var watsonUrl = "https://gateway-a.watsonplatform.net/calls/text/TextGetTextSentiment?apikey=d5dbbfa0e237deb3e2e03242d4c5a3c6434b0946&text=" + encodeURIComponent(vm.removeDiacritics(comment.message)) + "&outputMode=json"
-                            var watsonRequest = vm.getRequest(watsonUrl);
-
-                            if (watsonRequest.status == 200) {
-                                comment.watson = JSON.parse(watsonRequest.responseText);
-                                if (comment.watson.docSentiment) {
-                                    if (post[comment.watson.docSentiment.type] == undefined) {
-                                        post[comment.watson.docSentiment.type] = 0;
+                                for (var y = 0; y < post.comments.length; y++) {
+                                    var comment = post.comments[y];
+                                    var watsonUrl = "https://gateway-a.watsonplatform.net/calls/text/TextGetTextSentiment?apikey=d5dbbfa0e237deb3e2e03242d4c5a3c6434b0946&text=" + encodeURIComponent(vm.removeDiacritics(comment.message)) + "&outputMode=json"
+                                    var watsonRequest = vm.getRequest(watsonUrl);
+                                    watsonRequest.onreadystatechange = function() {
+                                      if (watsonRequest.status == 200) {
+                                          comment.watson = JSON.parse(watsonRequest.responseText);
+                                          if (comment.watson.docSentiment) {
+                                              if (post[comment.watson.docSentiment.type] == undefined) {
+                                                  post[comment.watson.docSentiment.type] = 0;
+                                              }
+                                              post[comment.watson.docSentiment.type]++;
+                                          }
+                                      }
                                     }
-                                    post[comment.watson.docSentiment.type]++;
+                                    watsonRequest.send();
                                 }
                             }
                         }
+                        commentsRequest.send();
                     }
-
-                    vm.writePostData(this.user.uid, this.posts);
-
+                    vm.writePostData(vm.user.uid, vm.posts);
+                    console.log('mdr', vm.posts);
                 }
-
-
             }
+            feedRequest.send();
         },
         writePostData: function(userId, posts) {
             this.database.ref('users/' + userId).set({
@@ -139,9 +146,9 @@ var vueApp = new Vue({
                 console.log(user);
                 var promise = vm.getUserPosts(vm.user.uid);
                 promise.then(function(data) {
-                  if (data.val() != null) {
-                    vm.posts = data.val().posts;
-                  }
+                    if (data.val() != null) {
+                        vm.posts = data.val().posts;
+                    }
 
                     if (localStorage.getItem('facebookToken') != null) {
                         var token = localStorage.getItem('facebookToken');
@@ -156,40 +163,40 @@ var vueApp = new Vue({
 
 
 Vue.component('chart', {
-  // declare the props
-  props: ['post'],
-  mounted: function () {
-    console.log('chart mounted', this.post);
+    // declare the props
+    props: ['post'],
+    mounted: function() {
+        console.log('chart mounted', this.post);
 
-      var positiveScore = 100 * this.post.positive / this.post.comments.length;
-      var negativeScore = 100 * this.post.negative / this.post.comments.length;
-      var neutralScore = 100 * this.post.neutral / this.post.comments.length;
+        var positiveScore = 100 * this.post.positive / this.post.comments.length;
+        var negativeScore = 100 * this.post.negative / this.post.comments.length;
+        var neutralScore = 100 * this.post.neutral / this.post.comments.length;
 
-      var ctx = document.getElementById("chart-" + this.post.id);
-      var myChart = new Chart(ctx, {
-          type: 'bar',
-          data: {
-              labels: ["Negatif", "Positif", "Neutre"],
-              maintainAspectRatio: true,
-              datasets: [{
-                  label: 'Commentaires',
-                  data: [negativeScore, positiveScore, neutralScore],
-                  backgroundColor: [
-                      'rgba(255, 99, 132, 0.2)',
-                      'rgba(54, 162, 235, 0.2)',
-                      'rgba(255, 206, 86, 0.2)'
-                  ],
-                  borderColor: [
-                      'rgba(255,99,132,1)',
-                      'rgba(54, 162, 235, 1)',
-                      'rgba(255, 206, 86, 1)'
-                  ],
-                  borderWidth: 1
-              }]
-          }
-      });
-  },
-  // just like data, the prop can be used inside templates
-  // and is also made available in the vm as this.message
-  template: '<canvas v-bind:id="\'chart-\' + post.id" width="400" height="400"></canvas>'
+        var ctx = document.getElementById("chart-" + this.post.id);
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ["Negatif", "Positif", "Neutre"],
+                maintainAspectRatio: true,
+                datasets: [{
+                    label: 'Commentaires',
+                    data: [negativeScore, positiveScore, neutralScore],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255,99,132,1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            }
+        });
+    },
+    // just like data, the prop can be used inside templates
+    // and is also made available in the vm as this.message
+    template: '<canvas v-bind:id="\'chart-\' + post.id" width="400" height="400"></canvas>'
 })
