@@ -141,10 +141,10 @@ var vueApp = new Vue({
                 promise.then(function(data) {
                     vm.posts = data.val().posts;
 
-                    // if (localStorage.getItem('facebookToken') != null) {
-                    //     var token = localStorage.getItem('facebookToken');
-                    //     vm.getFacebookComments(token);
-                    // }
+                    if (localStorage.getItem('facebookToken') != null) {
+                        var token = localStorage.getItem('facebookToken');
+                        vm.getFacebookComments(token);
+                    }
                 });
 
             }
