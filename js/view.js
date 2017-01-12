@@ -64,11 +64,10 @@ var vueApp = new Vue({
                 if (feedRequest.status == 200) {
                     var posts = JSON.parse(feedRequest.responseText);
                     vm.posts = posts.data;
-                    var length = vm.posts.length;
                     if (vm.posts.length > 5) {
                         vm.posts.splice(0, 5);
                     }
-                    for (var i = 0; i < length; i++) {
+                    for (var i = 0; i < vm.posts.length; i++) {
                         var post = vm.posts[i];
                         var commentsUrl = "https://graph.facebook.com/v2.8/" + post.id + "/comments?&access_token=" + token;
                         var commentsRequest = vm.getRequest(commentsUrl);
