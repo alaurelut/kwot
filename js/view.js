@@ -139,7 +139,9 @@ var vueApp = new Vue({
                 console.log(user);
                 var promise = vm.getUserPosts(vm.user.uid);
                 promise.then(function(data) {
+                  if (data.val() != null) {
                     vm.posts = data.val().posts;
+                  }
 
                     if (localStorage.getItem('facebookToken') != null) {
                         var token = localStorage.getItem('facebookToken');
