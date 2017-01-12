@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 
 <head>
     <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
@@ -9,40 +9,57 @@
 </head>
 
 <body>
-    </div>
     <div id="left">
         <div id="text">
-              <span>La «stratégie» Twitter
+            <span>La «stratégie» Twitter
               <br>du président élu Trump</span>
         </div>
         <div class="contentLeft">
-                <img src="img/picto_veille.png" id="picto-veille" alt="">
-                <div id="picto-title">Veille</div>
+            <img src="img/picto_veille.png" id="picto-veille" alt="">
+            <div id="picto-title">Veille</div>
         </div>
     </div>
     <div id="right">
         <div class="content">
-
-            <div class="textRight">
-                <h1 class="title"><img src="img/title.svg" alt=""></h1>
-                Kwot aspire les commentaires, partages des articles piblués sur les réseaux sociaux et les sites médias en ligne.
+            <div id="textRight">
+                <img src="img/title.svg" alt="">Kwot aspire les commentaires, partages des articles publiés sur les réseaux sociaux et les médias en ligne.
                 <br>
                 <br> Il analyse et optimise votre rédaction web.
                 <!--  <button onclick="login('google')">Google</button>
                <button onclick="login('facebook')">Facebook</button>
                <button onclick="login('twitter')">Twitter</button> -->
             </div>
-            <div class="bottom-text">
-                <input placeholder="Adresse mail" type="email" class="mail">
-                <div class="connexion">M'informer</div>
+            <div id="app">
+            <form v-if="!success" id="form" @submit.prevent="registerMail()" action="">
+                <div class="bottom-text">
+                    <input placeholder="Adresse mail"  v-model="mailUser" required type="email" id="mail">
+                    <div @click="registerMail()" id="connexion">M'informer</div>
+                    <div v-if="error" class="error">{{error}}</div>
+                    <input type="submit" style="position:absolute;left:-99999px">
+                </div>
+            </form>
+            <div v-else class="success">Votre email a bien été envoyé</div>
             </div>
         </div>
     </div>
     <!-- https://puteborgne.sexy/talk2/ -->
-
 </body>
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
+<script src="https://www.gstatic.com/firebasejs/3.6.4/firebase.js"></script>
+<script src="js/getMail.js"></script>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 <script src="js/anim.js"></script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-90171860-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
 </html>
