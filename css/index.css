@@ -9,6 +9,17 @@ body, #app{
 	margin: 0;
 }
 
+.posts{
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 25px;
+margin: 25px;
+border: 1px solid grey;
+}
+.legend{width: 40% !important;}
+.chart{width: 40% !important;}
+
 #logIn{
 	font-family: 'Raleway', sans-serif;
 	width:100%;
