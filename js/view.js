@@ -63,9 +63,11 @@ var vueApp = new Vue({
             feedRequest.onreadystatechange = function() {
                 if (feedRequest.status == 200) {
                     var posts = JSON.parse(feedRequest.responseText);
-                    vm.posts = posts.data;
-                    if (vm.posts.length > 5) {
-                        vm.posts.splice(0, 5);
+                    posts = posts.data;
+                    for (var i = 0; i < posts.length; i++) {
+                      if (posts[i].message && vm.posts.length < 5) {
+                        vm.posts = posts.push(posts[i]);
+                      }
                     }
                     for (var i = 0; i < vm.posts.length; i++) {
                         var post = vm.posts[i];
