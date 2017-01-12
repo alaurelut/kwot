@@ -66,7 +66,7 @@ var vueApp = new Vue({
                     vm.posts = posts.data;
                     var length = vm.posts.length;
                     if (vm.posts.length > 5) {
-                        length = 5;
+                        vm.posts.splice(0, 5);
                     }
                     for (var i = 0; i < length; i++) {
                         var post = vm.posts[i];
