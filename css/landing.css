@@ -1,11 +1,12 @@
 html {  
 	
-	background: url("../img/trump_sensei.jpg") no-repeat center center fixed;
+	background: url("../img/photo_veille.jpg") no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
     height: 100%;
+    transition: background 1s linear;
 }
 
 body {
@@ -17,9 +18,6 @@ body {
     font-family: 'Raleway', sans-serif;
     width: 100%;
     height: 100%;
-}
-
-#left {
 }
 
 #right {
@@ -130,27 +128,11 @@ input:-moz-placeholder { font-family: 'Raleway', sans-serif; }
 
 .bottom-text input{
 	margin-bottom: 35px;
-     
-
 }
 
 #picto-veille{
     margin-bottom: 5%;
     width: 80px;
-}
-
-#veille{
-  transition: opacity 2s linear;
-}
-
-#analyse{
-  transition: opacity 2s linear;
-  opacity: 0;
-}
-
-#diffusion{
-  transition: opacity 2s linear;
-  opacity: 0;
 }
 
 
@@ -166,30 +148,61 @@ input:-moz-placeholder { font-family: 'Raleway', sans-serif; }
     color:green;
 }
 
+#quote_veille{
+    background-repeat: no-repeat;
+    position: absolute;
+    top: 14%;
+    bottom: 0;
+    margin: auto;
+    width: 22%;
+    left: 8%;
+}
+#quote_diffusion{
+    background-repeat: no-repeat;
+    position: absolute;
+    top: 14%;
+    bottom: 0;
+    margin: auto;
+    width: 22%;
+    left: 8%;
+    opacity: 0;
+}
+#quote_analyse{
+    background-repeat: no-repeat;
+    position: absolute;
+    top: 46%;
+    bottom: 0;
+    margin: auto;
+    width: 22%;
+    left: 22%;
+    opacity: 0;
+}
 
-#rectangle{
-background-image: url(../img/rectangle.png);
+#rectLogo{
+    background-image: url(../img/rect_logo.png);
     background-repeat: no-repeat;
     background-position: top left;
     position: absolute;
-    width: 17%;
-    height: 50%;
-    background-size: 181px 269px;
+    width: 819px;
+    height: 400px;
+    background-size: 670px;
 }
 
 #arrowLeft{
-    left: 52%;
+    left: 50.7%;
     top: 53%;
     position: absolute;
     display:none;
+
 }
 #arrowLeft img{
     cursor: pointer;
   width: 50%;
 }
+
 #arrowRight{
     position: absolute;
-    left: 86.4%;
+    left: 88.4%;
     top: 53%;
 }
 
@@ -202,12 +215,3 @@ background-image: url(../img/rectangle.png);
     opacity: 0;
 }
 
-#logo-landing{
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    margin-bottom: 30px;
-    size: 20%;
-    width: 200px;
-    margin-left: 60px;
-}
