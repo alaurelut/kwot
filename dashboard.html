@@ -4,24 +4,38 @@
 <head>
     <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
     <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/dashboard.css">
     <meta charset="UTF-8">
     <title>KWOT</title>
 </head>
 
-<body>
+<body class="grey-bg">
   <div id="app">
-    <div v-show="user">
-        <button @click="signOut()">Sign Out</button>
+    <div v-show="user" class="posts-wrapper">
+        <!-- <button @click="signOut()">Sign Out</button> -->
         <div v-for="(post, index) in posts" v-if="post.message" class="posts">
-          <div class="legend">
-            <h1>{{ post.message }}</h1>
-            <h2 v-if="post.comments">Nombre de commentaires : {{ post.comments.length}}</h2>
-            <h2 v-if="post.positive">Commentaires positifs : {{ post.positive}}</h2>
-            <h2 v-if="post.negative">Commentaires negatifs : {{ post.negative}}</h2>
-            <h2 v-if="post.neutral">Commentaires neutres : {{ post.neutral}}</h2>
+          <div class="header blue-bg">
+            {{ post.message }}
           </div>
-          <div class="chart">
+          <div class="inner-post">
+            <span class="txt">Tendances de la publication</span>
             <chart :post="post"></chart>
+            <div class="metrics section">
+              <div>
+                <span class="highligth">{{ post.comments.length}}</span><span class="txt">Commentaires</span>
+              </div>
+              <div>
+                <span class="highligth">180</span><span class="txt">Partages</span>
+              </div>
+            </div>
+            <div class="section">
+              <span class="txt">Mots Clés</span>
+              <div class="keywords">
+                <span class="keyword">Justice</span>
+                <span class="keyword">Penis</span>
+                <span class="keyword">Caca</span>
+              </div>
+            </div>
           </div>
         </div>
     </div>
@@ -46,6 +60,23 @@
         </div>
     </div>
   </div>
+
+  <script type="text/x-template" id="charts">
+    <div class="charts">
+      <div class="chart">
+        <canvas v-bind:id="'chart-' + post.id + '-positive'" width="400" height="400"></canvas>
+        <span class="percentage">{{positiveScore}}%</span>
+      </div>
+      <div class="chart">
+        <canvas v-bind:id="'chart-' + post.id + '-negative'" width="400" height="400"></canvas>
+        <span class="percentage">{{negativeScore}}%</span>
+      </div>
+      <div class="chart">
+        <canvas v-bind:id="'chart-' + post.id + '-neutral'" width="400" height="400"></canvas>
+        <span class="percentage">{{neutralScore}}%</span>
+      </div>
+    </div>
+  </script>
 
     <!-- https://puteborgne.sexy/talk2/ -->
 

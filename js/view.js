@@ -84,7 +84,7 @@ var vueApp = new Vue({
                                             }
                                             post[comment.watson.docSentiment.type]++;
                                             if (post.comments == undefined) {
-                                              post.comments = [];
+                                                post.comments = [];
                                             }
                                             post.comments.push(comment);
                                         }
@@ -191,34 +191,62 @@ var vueApp = new Vue({
 Vue.component('chart', {
     // declare the props
     props: ['post'],
-    mounted: function() {
-        var positiveScore = 100 * this.post.positive / this.post.comments.length;
-        var negativeScore = 100 * this.post.negative / this.post.comments.length;
-        var neutralScore = 100 * this.post.neutral / this.post.comments.length;
-
-        var ctx = document.getElementById("chart-" + this.post.id);
-        var myChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: ["Negatif", "Positif", "Neutre"],
-                maintainAspectRatio: true,
-                datasets: [{
-                    label: 'Commentaires',
-                    data: [negativeScore, positiveScore, neutralScore],
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)'
-                    ],
-                    borderColor: [
-                        'rgba(255,99,132,1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)'
-                    ],
-                    borderWidth: 1
-                }]
-            }
-        });
+    data: function() {
+        return {
+            positiveScore: 0,
+            negativeScore: 0,
+            neutralScore: 0
+        }
     },
-    template: '<canvas v-bind:id="\'chart-\' + post.id" width="400" height="400"></canvas>'
+    methods: {
+        createChart: function(type, percentage) {
+            var ctx = document.getElementById("chart-" + this.post.id + "-" + type);
+            var myChart = new Chart(ctx, {
+                type: 'doughnut',
+                options: {
+                    cutoutPercentage: 75,
+                    title: {
+                        display: true,
+                        text: type,
+                        fontSize: 18,
+                        fontFamily: 'Raleway, sans-serif',
+                        fontColor: '#28ADAD',
+                        fontStyle: 'ligth',
+                        position: 'bottom'
+                    }
+                },
+                data: {
+                    maintainAspectRatio: true,
+                    datasets: [{
+                        label: type,
+                        data: [percentage, 100 - percentage],
+                        backgroundColor: [
+                            "#28ADAD",
+                            "#EEECEE"
+                        ]
+                    }]
+                }
+            });
+        }
+    },
+    mounted: function() {
+      console.log('mounted', this.post);
+        if (this.post.positive == undefined) {
+          this.post.positive = 0;
+        }
+        if (this.post.negative == undefined) {
+          this.post.negative = 0;
+        }
+        if (this.post.neutral == undefined) {
+          this.post.neutral = 0;
+        }
+        this.positiveScore = Math.round(100 * this.post.positive / this.post.comments.length);
+        this.negativeScore = Math.round(100 * this.post.negative / this.post.comments.length);
+        this.neutralScore = Math.round(100 * this.post.neutral / this.post.comments.length);
+
+        this.createChart("positive", this.positiveScore);
+        this.createChart("negative", this.negativeScore);
+        this.createChart("neutral", this.neutralScore);
+    },
+    template: '#charts'
 })
