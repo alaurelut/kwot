@@ -23,6 +23,22 @@ var pictoTitle = [
     "Diffusion",
     "Analyse"
 ];
+
+var background = [
+    "img/photo_veille.jpg",
+    "img/photo_diffusion.jpg",
+    "img/photo_analyse.jpg",
+    "img/photo_final.jpg"
+];
+
+var quote = [
+    $('#quote_veille'),
+    $('#quote_diffusion'),
+    $('#quote_analyse')
+];
+
+
+var anim = true;
 var k = 0;
 var saveContent = `<img src="img/picto_analyse.png" id="picto-veille" alt="" style="opacity: 1;">
                 <div id="picto-title" style="opacity: 1;">Analyse</div>`;
@@ -30,24 +46,36 @@ var saveContent = `<img src="img/picto_analyse.png" id="picto-veille" alt="" sty
 function backgroundSequence(div) {
     if (div == 'left') {
         k--;
-        if(k == 0){
-            $('#arrowLeft').css('display', 'none');    
+        k = k < 0 ? 0 : k;
+
+        if (k == 0) {
+            $('#arrowLeft').css('display', 'none');
         }
         if (k == 2) {
 
             $('#app').animate({ 'opacity': 0 }, 500);
 
-                $('#contentLeft').animate({ 'opacity': 1 }, 500, function() {
-                    $('#content').css('marginTop', '16%');
-                    $('#contentLeft').css('display', 'flex');
-                    $('#arrowRight').css('display', 'block');
-                    $('#contentLeft').html(saveContent);
-                })
-        } 
+            $('#contentLeft').animate({ 'opacity': 1 }, 500, function() {
+                $('#content').css('marginTop', '16%');
+                $('#contentLeft').css('display', 'flex');
+                $('#arrowRight').css('display', 'block');
+                $('#contentLeft').html(saveContent);
+            });
+            quote[k].animate({ 'opacity': 1 }, 500);
+        } else {
+            var j = k + 1;
+            quote[j].animate({ 'opacity': 0 }, 500);
+            quote[k].animate({ 'opacity': 1 }, 500);
+        }
+
+        $('html').css('background', 'url("' + background[k] + '") no-repeat center center fixed');
+        $('html').css('background-size', 'cover');
 
         $('#textRight').animate({ 'opacity': 0 }, 500, function() {
             $(this).html(textArray[k]);
-        }).animate({ 'opacity': 1 }, 500);
+        }).animate({ 'opacity': 1 }, 500, function(){
+            anim = true;
+        });
 
         $('#picto-veille').animate({ 'opacity': 0 }, 500, function() {
             $(this).attr('src', pictoArray[k]);
@@ -61,8 +89,9 @@ function backgroundSequence(div) {
     } else {
 
         k++;
-        if (k == 3) {
 
+        k = k > 3 ? 3 : k;
+        if (k == 3) {
             $('#contentLeft').animate({ 'opacity': 0 }, 500, function() {
                 $('#contentLeft').html('');
                 $('#contentLeft').css('display', 'none');
@@ -74,18 +103,39 @@ function backgroundSequence(div) {
             $('#textRight').animate({ 'opacity': 0 }, 500, function() {
                 $(this).html(textArray[k]);
                 $('#app').animate({ 'opacity': 1 }, 500);
-            }).animate({ 'opacity': 1 }, 500);
+            }).animate({ 'opacity': 1 }, 500, function(){
+                anim = true;
+            });
+
+
+            $('html').css('background', 'url("' + background[k] + '") no-repeat center center fixed');
+            $('html').css('background-size', 'cover');
+
+            quote[2].animate({ 'opacity': 0 }, 500);
+
         } else {
+
+            $('html').css('background', 'url("' + background[k] + '") no-repeat center center fixed');
+            $('html').css('background-size', 'cover');
+
+            var i = k - 1;
+            quote[i].animate({ 'opacity': 0 }, 500);
+            quote[k].animate({ 'opacity': 1 }, 500);
+
             $('#textRight').animate({ 'opacity': 0 }, 500, function() {
                 $(this).html(textArray[k]);
                 $('#arrowLeft').css('display', 'block');
             }).animate({ 'opacity': 1 }, 500);
+
+
             $('#picto-veille').animate({ 'opacity': 0 }, 500, function() {
                 $(this).attr('src', pictoArray[k]);
             }).animate({ 'opacity': 1 }, 500);
             $('#picto-title').animate({ 'opacity': 0 }, 500, function() {
                 $(this).html(pictoTitle[k]);
-            }).animate({ 'opacity': 1 }, 500);
+            }).animate({ 'opacity': 1 }, 500, function(){
+                anim = true;
+            });
         }
         k = k > 3 ? 0 : k;
     }
@@ -95,9 +145,15 @@ function backgroundSequence(div) {
 
 $(document).ready(function() {
     $('#slideLeft').on('click', function() {
-        backgroundSequence('left');
+        if (anim) {
+            anim = false;
+            backgroundSequence('left');
+        }
     })
     $('#slideRight').on('click', function() {
-        backgroundSequence('right');
+        if (anim) {
+            anim = false;
+            backgroundSequence('right');
+        }
     })
 })
