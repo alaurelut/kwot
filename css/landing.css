@@ -33,16 +33,34 @@ body {
     align-items: center;
 }
 
-#text {
+.citation {
     color: white;
-    font-size: 2.2em;
-    font-weight: bold;
-    text-align: center;
-    margin-top: 6%;
-    width: 35%;
+    font-size: 1.4em;
     position: absolute;
-
+    top: 50%;
+    bottom: 0;
+    margin: auto;
+    left: 8%;
+    font-style: italic;
 }
+.citation span {
+    float: right;
+    font-style: normal;
+    text-align: right;
+    font-size: 0.7em;
+    margin-top: 15px;
+}
+
+#textDiffusion {
+    opacity: 0;
+}
+#textAnalyse {
+    opacity: 0;
+}
+#textVeille {
+    opacity: 1;
+}
+
 
 #contentLeft {
     margin-top: 0%;
@@ -112,7 +130,7 @@ body {
     font-weight: 500;
     line-height: 17pt;
 
-    letter-spacing: -0.1px;
+    letter-spacing: -0.4px;
 }
 
 .bottom-text{
@@ -148,36 +166,6 @@ input:-moz-placeholder { font-family: 'Raleway', sans-serif; }
     color:green;
 }
 
-#quote_veille{
-    background-repeat: no-repeat;
-    position: absolute;
-    top: 14%;
-    bottom: 0;
-    margin: auto;
-    width: 22%;
-    left: 8%;
-}
-#quote_diffusion{
-    background-repeat: no-repeat;
-    position: absolute;
-    top: 14%;
-    bottom: 0;
-    margin: auto;
-    width: 22%;
-    left: 8%;
-    opacity: 0;
-}
-#quote_analyse{
-    background-repeat: no-repeat;
-    position: absolute;
-    top: 46%;
-    bottom: 0;
-    margin: auto;
-    width: 22%;
-    left: 22%;
-    opacity: 0;
-}
-
 #rectLogo{
     background-image: url(../img/rect_logo.png);
     background-repeat: no-repeat;
@@ -185,7 +173,8 @@ input:-moz-placeholder { font-family: 'Raleway', sans-serif; }
     position: absolute;
     width: 819px;
     height: 400px;
-    background-size: 670px;
+    
+    background-size: 70%;
 }
 
 #arrowLeft{

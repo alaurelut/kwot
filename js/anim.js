@@ -1,10 +1,28 @@
 var textArray = [
     `
-    Ne prenez plus la peine d’écumer vos 10 sites d’information chaque matin. Pour ne pas en perdre une miette, nous vous permettons de détecter les sujets les plus populaires et émergents sur le web. Une recherche personnalisée est à votre disposition pour accéder à la thématique qui vous intéresse.`,
+    Ne prenez plus la peine d’écumer 
+    vos 10 sites d’information chaque matin. 
+    Pour ne pas en perdre une miette, 
+    nous vous permettons de détecter 
+    les sujets les plus populaires et 
+    émergents sur le web. Une recherche 
+    personnalisée est à votre disposition 
+    pour accéder à la thématique qui vous intéresse.`,
     `
-    Plusieurs réseaux sociaux à fournir en contenu ? Vous travaillez pour un média ? Aucun problème. Partager vos articles et vos publications directement à partir de notre plateforme sur vos supports préférés`,
+    Plusieurs réseaux sociaux à fournir en 
+    contenu ? Vous travaillez pour un média
+     ? Aucun problème. Partager vos articles 
+     et vos publications directement à 
+     partir de notre plateforme sur vos 
+     supports préférés.`,
     `
-    Notre intelligence artificielle est à votre service pour analyser les commentaires de vos lecteurs. Elle trie et catégorise les avis selon vos critères. Vous pourrez ainsi adapter et optimiser en direct votre rédaction.`,
+    Notre intelligence artificielle est 
+    à votre service pour analyser les 
+    commentaires de vos lecteurs. Elle 
+    trie et catégorise les avis selon vos 
+    critères. Vous pourrez ainsi adapter et 
+    optimiser en direct votre rédaction.`,
+
     `<div id="contentLogo">
      <img src="img/title.svg" alt="">
    </div>
@@ -32,9 +50,9 @@ var background = [
 ];
 
 var quote = [
-    $('#quote_veille'),
-    $('#quote_diffusion'),
-    $('#quote_analyse')
+    $('#textVeille'),
+    $('#textDiffusion'),
+    $('#textAnalyse')
 ];
 
 
@@ -64,8 +82,9 @@ function backgroundSequence(div) {
             quote[k].animate({ 'opacity': 1 }, 500);
         } else {
             var j = k + 1;
-            quote[j].animate({ 'opacity': 0 }, 500);
+            quote[j].animate({ 'opacity': 0 }, 500, function(){
             quote[k].animate({ 'opacity': 1 }, 500);
+            });
         }
 
         $('html').css('background', 'url("' + background[k] + '") no-repeat center center fixed');
@@ -73,7 +92,7 @@ function backgroundSequence(div) {
 
         $('#textRight').animate({ 'opacity': 0 }, 500, function() {
             $(this).html(textArray[k]);
-        }).animate({ 'opacity': 1 }, 500, function(){
+        }).animate({ 'opacity': 1 }, 500, function() {
             anim = true;
         });
 
@@ -103,7 +122,7 @@ function backgroundSequence(div) {
             $('#textRight').animate({ 'opacity': 0 }, 500, function() {
                 $(this).html(textArray[k]);
                 $('#app').animate({ 'opacity': 1 }, 500);
-            }).animate({ 'opacity': 1 }, 500, function(){
+            }).animate({ 'opacity': 1 }, 500, function() {
                 anim = true;
             });
 
@@ -119,8 +138,9 @@ function backgroundSequence(div) {
             $('html').css('background-size', 'cover');
 
             var i = k - 1;
-            quote[i].animate({ 'opacity': 0 }, 500);
+            quote[i].animate({ 'opacity': 0 }, 500, function(){
             quote[k].animate({ 'opacity': 1 }, 500);
+            });
 
             $('#textRight').animate({ 'opacity': 0 }, 500, function() {
                 $(this).html(textArray[k]);
@@ -133,7 +153,7 @@ function backgroundSequence(div) {
             }).animate({ 'opacity': 1 }, 500);
             $('#picto-title').animate({ 'opacity': 0 }, 500, function() {
                 $(this).html(pictoTitle[k]);
-            }).animate({ 'opacity': 1 }, 500, function(){
+            }).animate({ 'opacity': 1 }, 500, function() {
                 anim = true;
             });
         }
