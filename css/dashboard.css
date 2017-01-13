@@ -37,6 +37,7 @@
 .charts{
   display: flex;
   justify-content: space-between;
+  padding: 15px 0;
 }
 .chart{
   width: 33%;
@@ -80,8 +81,8 @@
   font-size: 20px;
 }
 .section{
-  padding: 15px 0px;
-  border-top: 1px solid grey;
+  padding: 25px 0px;
+  border-top: 1px solid #EEECEE;
 }
 /*.legend {
     width: 40% !important;
