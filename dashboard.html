@@ -12,34 +12,53 @@
 <body class="grey-bg">
     <div id="app">
         <div v-show="user">
-            <h1 class="txt">Mes publications</h1>
-
-            <div v-show="user" class="posts-wrapper">
-                <!-- <button @click="signOut()">Sign Out</button> -->
-                <div v-for="(post, index) in posts" v-if="post.message" class="posts">
-                    <div class="header blue-bg">
-                        {{ post.message }}
-                    </div>
-                    <div class="inner-post">
-                        <span class="txt">Tendances de la publication</span>
-                        <chart :post="post"></chart>
-                        <div class="metrics section">
-                            <div>
-                                <span class="highligth">{{ post.comments.length}}</span><span class="txt">Commentaires</span>
-                            </div>
-                            <div>
-                                <span class="highligth" v-if="post.shared">{{ post.shared.length}}</span>
-                                <span class="highligth" v-else>0</span>
-                                <span class="txt">Partages</span>
-                            </div>
+            <nav>
+              <div class="link">
+                Tendances globales
+              </div>
+              <hr>
+              <div class="link active">
+                Mes publications
+              </div>
+              <hr class="active">
+              <div class="link">
+                Mes recherches
+              </div>
+              <hr>
+              <div class="link">
+                Support
+              </div>
+              <hr>
+            </nav>
+            <div class="wrapper">
+                <h1 class="txt title">Mes publications</h1>
+                <div v-show="user" class="posts-wrapper">
+                    <!-- <button @click="signOut()">Sign Out</button> -->
+                    <div v-for="(post, index) in posts" v-if="post.message" class="posts">
+                        <div class="header blue-bg">
+                            {{ post.message }}
                         </div>
-                        <div class="section">
-                            <span class="txt">Mots Clés</span>
-                            <div class="keywords" v-if="post.keywords">
-                                <span class="keyword" v-for="keyword in filterKeywords(post.keywords)">{{keyword.text}}</span>
+                        <div class="inner-post">
+                            <span class="txt">Tendances de la publication</span>
+                            <chart :post="post"></chart>
+                            <div class="metrics section">
+                                <div>
+                                    <span class="highligth">{{ post.comments.length}}</span><span class="txt">Commentaires</span>
+                                </div>
+                                <div>
+                                    <span class="highligth" v-if="post.shared">{{ post.shared.length}}</span>
+                                    <span class="highligth" v-else>0</span>
+                                    <span class="txt">Partages</span>
+                                </div>
                             </div>
-                            <div class="keywords" v-else>
-                              Aucun mots clés
+                            <div class="section">
+                                <span class="txt">Mots Clés</span>
+                                <div class="keywords" v-if="post.keywords">
+                                    <span class="keyword" v-for="keyword in filterKeywords(post.keywords)">{{keyword.text}}</span>
+                                </div>
+                                <div class="keywords" v-else>
+                                    Aucun mots clés
+                                </div>
                             </div>
                         </div>
                     </div>
