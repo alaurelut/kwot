@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+    <link rel="icon" href="img/favicon.ico" />
     <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
     <link rel="stylesheet" href="css/index.css">
     <link rel="stylesheet" href="css/dashboard.css">
@@ -13,22 +14,26 @@
     <div id="app">
         <div v-show="user">
             <nav>
-              <div class="link">
-                Tendances globales
-              </div>
-              <hr>
-              <div class="link active">
-                Mes publications
-              </div>
-              <hr class="active">
-              <div class="link">
-                Mes recherches
-              </div>
-              <hr>
-              <div class="link">
-                Support
-              </div>
-              <hr>
+                <div class="link">
+                    Tendances globales
+                </div>
+                <hr>
+                <div class="link active">
+                    Mes publications
+                </div>
+                <hr class="active">
+                <div class="link">
+                    Mes recherches
+                </div>
+                <hr>
+                <div class="link">
+                    Support
+                </div>
+                <hr>
+                <div class="link" @click="signOut()">
+                    Déconnexion
+                </div>
+                <hr>
             </nav>
             <div class="wrapper">
                 <h1 class="txt title">Mes publications</h1>
@@ -66,22 +71,16 @@
             </div>
         </div>
         <div v-show="!user" id="logIn">
-            <div id="left">
+            <div id="form">
                 <div class="content">
-                    <p class="text">Bientôt, <b>Kwot</b> votre outil de gestion d'info</p>
-                    <p class="offre">
-                        découvrir notre offre >
-                    </p>
-                </div>
-            </div>
-            <div id="right">
-                <div class="content">
-                    <p class="text">
-                        <button @click="login('google')">Google</button>
-                        <button @click="login('facebook')">Facebook</button>
-                        <button @click="login('twitter')">Twitter</button>
-                    </p>
-                    <div class="connexion">Connexion</div>
+                    <h1 class="txt title center">Connexion</h1>
+
+                    <div class="loginButtons">
+                      <img class="loginButton" src="img/login/google.svg" alt="" @click="login('google')">
+                      <img class="loginButton" src="img/login/facebook.svg" alt="" @click="login('facebook')">
+                      <img class="loginButton" src="img/login/twitter.svg" alt="" @click="login('twitter')">
+                    </div>
+                    <!-- <div class="connexion">Connexion</div> -->
                 </div>
             </div>
         </div>

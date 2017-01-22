@@ -1,65 +1,64 @@
-html{
-	height: 100%;
+html {
+    height: 100%;
 }
-
-body, #app{
-	font-family: 'Raleway', sans-serif;
-	width:100%;
-	height:100%;
-	margin: 0;
+body, #app {
+    font-family: 'Raleway', sans-serif;
+    width: 100%;
+    height: 100%;
+    margin: 0;
 }
-
-#logIn{
-	font-family: 'Raleway', sans-serif;
-	width:100%;
-	height:100%;
-	display: flex;
-	margin: 0;
-	justify-content: space-around;
+#logIn {
+    font-family: 'Raleway', sans-serif;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    margin: 0;
+    justify-content: space-around;
+    align-items: center;
+    background: url("../img/photo_veille.jpg") no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    transition: background 1s linear;
+}
+#form {
+    background-color: white;
+    border-top: 15px solid rgb(251, 91, 11);
+    width: 50%;
+    display: flex;
+    justify-content: space-around;
     align-items: center;
 }
-
-#left{
-	border:1px solid black;
-	width:35%;
-	height:80%;
-	display: flex;
-	margin: 0;
-	justify-content: space-around;
-    align-items: center;
+.content {
+    width: calc(100% - 50px);
+    padding: 25px;
 }
-
-#right{
-	border:1px solid black;
-	width:35%;
-	height:80%;
-	display: flex;
-	margin: 0;
-	justify-content: space-around;
-    align-items: center;
+.text {
+    font-size: 250%;
+    color: #5A788B;
 }
-
-
-.content{
-	width:80%;
-	height:80%;
-
+.offre {
+    font-size: 80%;
 }
-
-.text{
-	font-size:250%;
-	color:#5A788B;
-}
-
-
-.offre{
-	font-size:80%;
-}
-
-.connexion{
-	color:#FC5B0B;
-	border:2px solid #FC5B0B;
-	border-radius: 45px;
-	padding:10px;
+.center{
 	text-align: center;
+	font-size: 30px
 }
+.loginButtons{
+	display: flex;
+  justify-content: space-around;
+}
+.loginButton{
+	width: 15%;
+	cursor: pointer;
+	align-self: center;
+}
+
+/*.connexion {
+    color: #FC5B0B;
+    border: 2px solid #FC5B0B;
+    border-radius: 45px;
+    padding: 10px;
+    text-align: center;
+}*/
