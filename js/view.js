@@ -37,14 +37,14 @@ var vueApp = new Vue({
                             if (authMethod == "facebook") {
                                 // This gives you a Facebook Access Token. You can use it to access the Facebook API.
                                 var token = result.credential.accessToken;
-                                console.log('token 1', token);
+                                // console.log('token 1', token);
                                 localStorage.setItem('facebookToken', token);
                             }
                             // Get reference to the currently signed-in user
                             var prevUser = vm.firebaseApp.auth.currentUser;
                             // Sign in user with another account
                             vm.firebaseApp.auth().signInWithCredential(credential).then(function(user) {
-                                console.log("Sign In Success", user);
+                                // console.log("Sign In Success", user);
                                 var currentUser = user;
 
                             }, function(error) {
@@ -147,7 +147,7 @@ var vueApp = new Vue({
 
                         }
                     }
-                    console.log('write post to db', vm.posts);
+                    // console.log('write post to db', vm.posts);
                     vm.writePostData(vm.user.uid, vm.posts);
                     vm.getFacebookComments(token);
                 }
@@ -174,7 +174,7 @@ var vueApp = new Vue({
                 vm.user = false;
                 localStorage.removeItem('facebookToken');
             }, function(error) {
-                console.error('Sign Out Error', error);
+                // console.error('Sign Out Error', error);
             });
         },
         removeDiacritics: function(str) {
@@ -197,10 +197,10 @@ var vueApp = new Vue({
         this.firebaseApp.auth().onAuthStateChanged(function(user) {
             if (user) {
                 vm.user = user;
-                console.log('user', user);
+                // console.log('user', user);
                 var promise = vm.getUserPosts(vm.user.uid);
 
-                console.log('token', localStorage.getItem('facebookToken'));
+                // console.log('token', localStorage.getItem('facebookToken'));
 
                 if (localStorage.getItem('facebookToken') != null) {
                     var token = localStorage.getItem('facebookToken');
@@ -211,7 +211,7 @@ var vueApp = new Vue({
                         vm.posts = data.val().posts;
                         vm.getFacebookComments(token);
                     } else {
-                        console.log('no post in DB');
+                        // console.log('no post in DB');
                         vm.getFacebookPosts(token);
                     }
                 });
@@ -263,7 +263,7 @@ Vue.component('chart', {
         }
     },
     mounted: function() {
-        console.log('mounted', this.post);
+        // console.log('mounted', this.post);
         if (this.post.positive == undefined) {
             this.post.positive = 0;
         }
