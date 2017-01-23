@@ -34,17 +34,19 @@ var vueApp = new Vue({
                             var credential = result.credential;
                             var user = result.user;
                             vm.user = user;
+                            if (authMethod == "facebook") {
+                                // This gives you a Facebook Access Token. You can use it to access the Facebook API.
+                                var token = result.credential.accessToken;
+                                console.log('token 1', token);
+                                localStorage.setItem('facebookToken', token);
+                            }
                             // Get reference to the currently signed-in user
                             var prevUser = vm.firebaseApp.auth.currentUser;
                             // Sign in user with another account
                             vm.firebaseApp.auth().signInWithCredential(credential).then(function(user) {
                                 console.log("Sign In Success", user);
                                 var currentUser = user;
-                                if (authMethod == "facebook") {
-                                    // This gives you a Facebook Access Token. You can use it to access the Facebook API.
-                                    var token = result.credential.accessToken;
-                                    localStorage.setItem('facebookToken', token);
-                                }
+
                             }, function(error) {
                                 alert("Sign In Error", error);
                             });
@@ -121,7 +123,7 @@ var vueApp = new Vue({
         },
         getFacebookPosts: function(token) {
             var vm = this;
-            var url = "https://graph.facebook.com/v2.8/me/feed?limit=5&access_token=" + token;
+            var url = "https://graph.facebook.com/v2.8/me/posts?limit=5&access_token=" + token;
             var feedRequest = this.getRequest(url);
             feedRequest.onreadystatechange = function() {
                 if (feedRequest.status == 200) {
@@ -170,6 +172,7 @@ var vueApp = new Vue({
             var vm = this;
             this.firebaseApp.auth().signOut().then(function() {
                 vm.user = false;
+                localStorage.removeItem('facebookToken');
             }, function(error) {
                 console.error('Sign Out Error', error);
             });
@@ -194,8 +197,10 @@ var vueApp = new Vue({
         this.firebaseApp.auth().onAuthStateChanged(function(user) {
             if (user) {
                 vm.user = user;
-                console.log(user);
+                console.log('user', user);
                 var promise = vm.getUserPosts(vm.user.uid);
+
+                console.log('token', localStorage.getItem('facebookToken'));
 
                 if (localStorage.getItem('facebookToken') != null) {
                     var token = localStorage.getItem('facebookToken');
